@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Mod("skis")
 public class Skis
 {
-    // Directly reference a log4j logger.
+
     private static final Logger LOGGER = LogManager.getLogger();
 
     public Skis() {
