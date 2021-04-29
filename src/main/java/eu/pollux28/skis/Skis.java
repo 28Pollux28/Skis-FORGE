@@ -1,9 +1,12 @@
 package eu.pollux28.skis;
 
+import eu.pollux28.skis.init.ModItems;
+//import eu.pollux28.skis.init.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -19,24 +22,27 @@ import org.apache.logging.log4j.Logger;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("skis")
+@Mod(Skis.MODID)
 public class Skis
 {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
+    public static final String MODID = "skis";
     public Skis() {
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the enqueueIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+//        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+//        // Register the processIMC method for modloading
+//        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModItems.ITEMS.register(bus);
+        //ModTileEntities.TILE_ENTITIES.register(bus);
     }
 
     private void setup(final FMLCommonSetupEvent event)
