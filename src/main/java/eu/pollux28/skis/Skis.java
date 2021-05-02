@@ -1,5 +1,6 @@
 package eu.pollux28.skis;
 
+import eu.pollux28.skis.init.ModBlocks;
 import eu.pollux28.skis.init.ModItems;
 //import eu.pollux28.skis.init.ModTileEntities;
 import net.minecraft.block.Block;
@@ -42,6 +43,7 @@ public class Skis
         MinecraftForge.EVENT_BUS.register(this);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.ITEMS.register(bus);
+        ModBlocks.BLOCKS.register(bus);
         //ModTileEntities.TILE_ENTITIES.register(bus);
     }
 
