@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "skis:silver_block"
+    }
+  ],
+  "result": {
+    "item": "skis:silver_ingot",
+    "count": 9
+  }
+}
