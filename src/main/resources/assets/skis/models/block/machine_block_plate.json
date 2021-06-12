@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "top": "skis:block/machine_block_top",
-    "front": "skis:block/machine_block_plate_front",
-    "side": "skis:block/machine_block_side"
-  }
-}
