@@ -4,9 +4,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -17,6 +20,8 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -54,7 +59,21 @@ public class MetalPressBlock extends Block {
         TileEntity tileEntity = world.getBlockEntity(pos);
         if(tileEntity instanceof MetalPressTileEntity && player instanceof ServerPlayerEntity){
             MetalPressTileEntity te = (MetalPressTileEntity) tileEntity;
-            NetworkHooks.openGui((ServerPlayerEntity) player, te, te::encodeExtraData);
+            INamedContainerProvider containerProvider = new INamedContainerProvider() {
+                @Override
+                public ITextComponent getDisplayName() {
+                    return new TranslationTextComponent("screen.skis.metal_press");
+                }
+
+                @Nullable
+                @Override
+                public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+                    MetalPressTileEntity te = (MetalPressTileEntity) world.getBlockEntity(pos);
+
+                    return new MetalPressContainer(i,world,pos,playerInventory,playerEntity);
+                }
+            };
+            NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, te.getBlockPos());
         }
     }
 

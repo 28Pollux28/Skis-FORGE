@@ -4,6 +4,7 @@ import eu.pollux28.skis.Skis;
 import eu.pollux28.skis.data.client.ModBlockStateProvider;
 import eu.pollux28.skis.data.client.ModItemModelProvider;
 import eu.pollux28.skis.data.loot.ModLootTableProvider;
+import eu.pollux28.skis.data.recipes.ModRecipeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

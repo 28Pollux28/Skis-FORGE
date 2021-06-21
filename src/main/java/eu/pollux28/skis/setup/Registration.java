@@ -29,8 +29,8 @@ public class Registration {
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
         ITEMS.register(modEventBus);
-        RECIPE_SERIALIZER.register(modEventBus);
         TILE_ENTITIES.register(modEventBus);
+        RECIPE_SERIALIZER.register(modEventBus);
 
         ModBlocks.register();
         ModContainerTypes.register();

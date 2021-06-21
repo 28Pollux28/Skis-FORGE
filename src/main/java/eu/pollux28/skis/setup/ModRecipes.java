@@ -11,11 +11,13 @@ import java.util.function.Supplier;
 
 public class ModRecipes {
     public static class Types{
+        static void register(){}
         public static final IRecipeType<PressingRecipe> PRESSING = IRecipeType.register(Skis.MOD_ID + "pressing");
     }
 
     public static class Serializers{
-        public static final RegistryObject<IRecipeSerializer<PressingRecipe>> PRESSING = register("pressing", () -> new PressingRecipe.PressingRecipeSerializer(PressingRecipe::new, 60));
+        static void register(){}
+        public static final RegistryObject<IRecipeSerializer<PressingRecipe>> PRESSING = register("pressing", PressingRecipe.PressingRecipeSerializer::new);
 
         private static <T extends IRecipe<?>>RegistryObject<IRecipeSerializer<T>> register(String name, Supplier<IRecipeSerializer<T>> serializer){
             return Registration.RECIPE_SERIALIZER.register(name, serializer);
@@ -23,5 +25,7 @@ public class ModRecipes {
     }
 
     static void register(){
+        Serializers.register();
+        Types.register();
     }
 }

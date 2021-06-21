@@ -1,3 +1,6 @@
 {
-  "item.skis.silver_ingot": "Silver Ingot"
+  "container.skis.metal_press.energy": "Energy: %s / %s",
+  "container.skis.metal_press.name": "Metal Press",
+  "item.skis.silver_ingot": "Silver Ingot",
+  "item.skis.silver_block": "Silver Block"
 }

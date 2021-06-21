@@ -1,8 +1,11 @@
 package eu.pollux28.skis;
 
+import eu.pollux28.skis.block.metalpress.MetalPressScreen;
+import eu.pollux28.skis.setup.ModContainerTypes;
 import eu.pollux28.skis.setup.Registration;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -57,6 +60,7 @@ public class Skis {
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().options);
+        ScreenManager.register(ModContainerTypes.METAL_PRESS_CONTAINER.get(), MetalPressScreen::new);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

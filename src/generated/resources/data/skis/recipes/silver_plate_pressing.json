@@ -1,0 +1,10 @@
+{
+  "type": "skis:pressing",
+  "ingredient": {
+    "item": "skis:silver_ingot"
+  },
+  "result": "minecraft:stone_button",
+  "count": 1,
+  "pressingTime": 40,
+  "energyConsumption": 20
+}

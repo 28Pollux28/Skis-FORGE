@@ -25,7 +25,8 @@ public class PressingRecipe implements IRecipe<IInventory> {
     protected final Ingredient ingredient;
     protected final ItemStack result;
     protected final int pressingTime;
-    public PressingRecipe(IRecipeType<PressingRecipe> type,IRecipeSerializer<PressingRecipe> serializer,ResourceLocation recipeId,String group ,Ingredient ingredient,ItemStack result,int pressingTime) {
+    protected final int energyConsumption;
+    public PressingRecipe(IRecipeType<PressingRecipe> type,IRecipeSerializer<PressingRecipe> serializer,ResourceLocation recipeId,String group ,Ingredient ingredient,ItemStack result,int pressingTime, int energyConsumption) {
         this.type = type;
         this.serializer = serializer;
         this.id = recipeId;
@@ -33,10 +34,11 @@ public class PressingRecipe implements IRecipe<IInventory> {
         this.ingredient= ingredient;
         this.result = result;
         this.pressingTime = pressingTime;
+        this.energyConsumption = energyConsumption;
     }
 
-    public PressingRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, int pressingTime) {
-        this(ModRecipes.Types.PRESSING,ModRecipes.Serializers.PRESSING.get(),id,group,ingredient,result,pressingTime);
+    public PressingRecipe(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, int pressingTime, int energyConsumption) {
+        this(ModRecipes.Types.PRESSING,ModRecipes.Serializers.PRESSING.get(),id,group,ingredient,result,pressingTime, energyConsumption);
     }
 
     @Override
@@ -46,6 +48,9 @@ public class PressingRecipe implements IRecipe<IInventory> {
 
     public int getPressingTime() {
         return this.pressingTime;
+    }
+    public int getEnergyConsumption(){
+        return this.energyConsumption;
     }
 
     @Override
@@ -91,13 +96,8 @@ public class PressingRecipe implements IRecipe<IInventory> {
     }
 
     public static class PressingRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<PressingRecipe>{
-        private final int defaultPressingTime;
-        private final PressingRecipeSerializer.IFactory<PressingRecipe> factory;
-
-        public PressingRecipeSerializer(IFactory<PressingRecipe> factory, int defaultPressingTime) {
-            this.factory = factory;
-            this.defaultPressingTime = defaultPressingTime;
-        }
+        private final int defaultPressingTime = 40;
+        private final int defaultEnergyConsumption = 20;
 
 
         @Override
@@ -116,8 +116,9 @@ public class PressingRecipe implements IRecipe<IInventory> {
                     return new IllegalStateException("Item: " + s1 + " does not exist");
                 }));
             }
-            int i = JSONUtils.getAsInt(json, "cookingtime", this.defaultPressingTime);
-            return this.factory.create(recipeId, s, ingredient, itemstack,  i);
+            int i = JSONUtils.getAsInt(json, "pressingtime", this.defaultPressingTime);
+            int energyC = JSONUtils.getAsInt(json,"energyConsumption",this.defaultEnergyConsumption);
+            return new PressingRecipe(recipeId, s, ingredient, itemstack,  i,energyC);
         }
 
         @Nullable
@@ -128,7 +129,8 @@ public class PressingRecipe implements IRecipe<IInventory> {
             ItemStack itemstack = buffer.readItem();
             float f = buffer.readFloat();
             int i = buffer.readVarInt();
-            return this.factory.create(recipeId, s, ingredient, itemstack, i);
+            int energyC = buffer.readVarInt();
+            return new PressingRecipe(recipeId, s, ingredient, itemstack, i, energyC);
         }
 
         @Override
@@ -137,10 +139,8 @@ public class PressingRecipe implements IRecipe<IInventory> {
             recipe.ingredient.toNetwork(buffer);
             buffer.writeItem(recipe.result);
             buffer.writeVarInt(recipe.pressingTime);
+            buffer.writeVarInt(recipe.energyConsumption);
         }
         
-        public interface IFactory<PressingRecipe>{
-            eu.pollux28.skis.crafting.recipe.PressingRecipe create(ResourceLocation id, String group,Ingredient ingredient, ItemStack result, int pressingTime);
-        } 
     }
 }
